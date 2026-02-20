@@ -1,0 +1,51 @@
+Отчет по мини-проекту доказательства изучения Главы 6 Kafka
+Дата: 20 февраля 2026
+
+Цель
+Подтвердить понимание внутренних механизмов Kafka: членство в кластере, контроллер, репликация, обработка запросов и физическое хранение.
+
+Состав проекта
+README.md
+report.txt
+docker-compose.yml
+scripts/demo-isr.sh
+scripts/demo-leader-election.sh
+scripts/demo-controller.sh
+scripts/demo-requests.sh
+scripts/demo-log-structure.sh
+java/RequestFlowDemo.java
+java/AcksLatencyNotes.java
+
+Ключевые разделы Главы 6 и что подтверждено
+1. Членство в кластере: эфемерные узлы ZooKeeper, обнаружение отказов.
+2. Контроллер: выбор лидеров, обновление метаданных, controller epoch.
+3. Репликация: leader/follower, ISR, high watermark.
+4. Обработка запросов: acceptor/processor/IO/purgatory, produce/fetch.
+5. Физическое хранение: сегменты логов, index и timeindex.
+6. Дополнительно: KRaft и tiered storage.
+
+Демонстрации
+1. demo-isr.sh: динамика ISR и влияние на acks=all.
+2. demo-leader-election.sh: выбор лидера из ISR.
+3. demo-controller.sh: отображение текущего контроллера через ZooKeeper.
+4. demo-requests.sh: produce и fetch, чтение до high watermark.
+5. demo-log-structure.sh: структура сегментов и индексов.
+
+Код и теория
+RequestFlowDemo.java описывает пайплайн обработки запросов и роль purgatory.
+AcksLatencyNotes.java фиксирует связь acks, ISR и high watermark.
+
+Ответы на теоретические вопросы
+1. Pull-модель дает контроль скорости чтения, батчи и защиту от медленных потребителей.
+2. При потере всех ISR запись недоступна, unclean election приводит к риску потери данных.
+3. Exactly-once достигается идемпотентными продюсерами и транзакциями.
+4. High watermark ограничивает чтение только подтвержденных всеми ISR данных.
+5. KRaft устраняет зависимость от ZooKeeper и ускоряет метаданные.
+6. Leader epoch меняется при смене лидера, controller epoch при смене контроллера.
+7. Компактизация сохраняет последнее значение по ключу.
+8. Удаляются целые сегменты для эффективности и атомарности.
+9. Replica fetcher lag определяет исключение из ISR.
+10. Батчи снижают накладные расходы диска, сети и компрессии.
+
+Итог
+Мини-проект покрывает ключевые механизмы Главы 6 и демонстрирует понимание теории через термины, ответы и практические сценарии.

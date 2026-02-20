@@ -1,0 +1,49 @@
+Отчет по проекту Главы 4 Kafka
+Дата: 20 февраля 2026
+
+Цель
+Подтвердить понимание механики потребителей Kafka: группы, ребалансировка, commit offset, lag.
+
+Состав проекта
+README.md
+report.txt
+scripts/demo-consumer-group.sh
+scripts/demo-offset-reset.sh
+scripts/demo-lag.sh
+scripts/demo-rebalance.sh
+scripts/demo-assignments.sh
+java/ConsumerFlowDemo.java
+java/OffsetCommitNotes.java
+
+Ключевые разделы главы
+1. Pull-модель потребления
+2. Consumer group и распределение партиций
+3. Rebalance и стратегии assignor
+4. Управление offset и гарантии доставки
+5. Lag и мониторинг
+
+Демонстрации
+1. demo-consumer-group.sh: поведение группы при добавлении consumer.
+2. demo-offset-reset.sh: влияние auto.offset.reset.
+3. demo-lag.sh: получение lag по consumer group.
+4. demo-rebalance.sh: эффект изменения состава группы.
+5. demo-assignments.sh: сравнение стратегий назначения.
+
+Код и теория
+ConsumerFlowDemo.java описывает poll/commit и риски повторной обработки.
+OffsetCommitNotes.java фиксирует разницу auto/sync/async commit.
+
+Ответы на вопросы
+1. Pull-модель дает контроль скорости чтения.
+2. Rebalance перераспределяет партиции в группе.
+3. Manual commit повышает контроль над доставкой.
+4. Lag показывает отставание потребителя.
+5. При падении consumer его партиции переходят другим.
+6. max.poll.interval.ms защищает группу от зависших consumers.
+7. Sticky assignor снижает перемещения партиций.
+8. at-least-once допускает дубликаты.
+9. Manual commit после обработки снижает риск потерь.
+10. Обработка ошибок важна для корректного commit.
+
+Итог
+Проект показывает понимание работы потребителей и управления offset.

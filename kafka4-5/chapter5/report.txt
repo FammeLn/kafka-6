@@ -1,0 +1,49 @@
+Отчет по проекту Главы 5 Kafka
+Дата: 20 февраля 2026
+
+Цель
+Подтвердить понимание управления Kafka: конфиги, ретеншн, компактизация, квоты, мониторинг.
+
+Состав проекта
+README.md
+report.txt
+scripts/demo-topic-configs.sh
+scripts/demo-retention.sh
+scripts/demo-compaction.sh
+scripts/demo-quotas.sh
+scripts/demo-monitoring.sh
+java/AdminOpsNotes.java
+java/MonitoringChecklist.java
+
+Ключевые разделы главы
+1. Broker и topic configs
+2. Retention и очистка сегментов
+3. Compaction
+4. Quotas и безопасность
+5. Мониторинг и метрики
+
+Демонстрации
+1. demo-topic-configs.sh: просмотр и изменение конфигурации топика.
+2. demo-retention.sh: влияние retention.ms/bytes.
+3. demo-compaction.sh: политика cleanup=compact.
+4. demo-quotas.sh: настройки ограничений.
+5. demo-monitoring.sh: ключевые метрики.
+
+Код и теория
+AdminOpsNotes.java фиксирует best practices управления Kafka.
+MonitoringChecklist.java перечисляет важные метрики.
+
+Ответы на вопросы
+1. Topic config переопределяет broker defaults для одного топика.
+2. Удаление сегментов быстрее и безопаснее.
+3. Compaction сохраняет последнее значение.
+4. Quotas защищают кластер от клиентов.
+5. UnderReplicatedPartitions и OfflinePartitionsCount критичны.
+6. log.segment.bytes влияет на размер сегментов.
+7. retention.ms и retention.bytes задают разные правила очистки.
+8. cleanup.policy определяет delete/compact.
+9. Диск часто ограничивает производительность.
+10. JMX нужен для мониторинга.
+
+Итог
+Проект демонстрирует ключевые операционные знания главы 5.

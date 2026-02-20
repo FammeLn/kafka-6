@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.kafka.lab'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Kafka Client
+    implementation 'org.apache.kafka:kafka-clients:3.5.1'
+    
+    // Logging
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
+    
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+application {
+    mainClass = 'com.kafka.lab.ReliableProducer'
+}
+
+// Task для запуска продюсера
+task runProducer(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.kafka.lab.ReliableProducer'
+    args = project.hasProperty('appArgs') ? project.property('appArgs').split(',') : []
+}
+
+// Task для запуска консьюмера
+task runConsumer(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.kafka.lab.SimpleConsumer'
+    args = project.hasProperty('appArgs') ? project.property('appArgs').split(',') : []
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// Настройка для создания JAR с зависимостями
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'com.kafka.lab.ReliableProducer'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
